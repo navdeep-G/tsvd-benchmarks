@@ -5,7 +5,6 @@ import pandas as pd
 import shutil
 import sys
 import tarfile
-import urllib
 import zipfile
 from scipy.sparse import vstack
 from sklearn import datasets
