@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignore results
+results/
+mycache/
+*.csv
+*.csv.gz
+*.txt
+
 # .IDEA
 *.idea/
 

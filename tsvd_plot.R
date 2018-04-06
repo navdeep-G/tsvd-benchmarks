@@ -2,7 +2,7 @@ library(ggplot2)
 library(reshape2)
 
 #Read in benchmark data
-tsvd <- read.csv("/home/navdeep/tsvd-benchmarks/bench_results.csv")
+tsvd <- read.csv("/home/navdeep/tsvd-benchmarks/results/bench_results_random_data.csv")
 
 #Collect small, medium, and big matrix cases
 tsvd_small <- subset(tsvd, m < 50000) #For bigger number of rows
@@ -39,4 +39,16 @@ ggplot(tsvd_sub_medium_melt,aes(x = tsvd_settings,y = value)) +
 ggplot(tsvd_sub_large_melt,aes(x = tsvd_settings,y = value)) +
   geom_bar(aes(fill = variable),stat = "identity",position = "dodge") +
   labs(title = "Benchmark TSVD on Large Data (>50K rows)", x = "Rows_Columns_k_precision", y = "Time") +
+  coord_flip()
+
+
+#Read in benchmark data
+tsvd_higgs <- read.csv("/home/navdeep/tsvd-benchmarks/results/bench_results_real_data.csv")
+tsvd_higgs$k = as.factor(tsvd_higgs$k)
+tsvd_sub_higgs <- tsvd_higgs[,c("k", "h2o4gpu_cusolver", "sklearn_arpack", "h2o4gpu_power", "sklearn_random")]
+tsvd_sub_higgs_melt<- melt(tsvd_sub_higgs)
+#Plot benchmarks for large size datasets (>50K rows)
+ggplot(tsvd_sub_higgs_melt,aes(x = k, y = value)) +
+  geom_bar(aes(fill = variable),stat = "identity",position = "dodge") +
+  labs(title = "Benchmark TSVD on Higgs Dataset (10,999,999 by 29)", x = "K", y = "Time") +
   coord_flip()

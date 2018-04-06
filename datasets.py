@@ -1,12 +1,10 @@
 import gzip
-import numpy as np
 import os
 import pandas as pd
 import shutil
 import sys
 import tarfile
 import zipfile
-from scipy.sparse import vstack
 from sklearn import datasets
 from sklearn.externals.joblib import Memory
 
@@ -28,24 +26,19 @@ def get_higgs(num_rows=None):
             with open(filename, 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
     higgs = pd.read_csv(filename)
-    X = higgs.iloc[:, 1:].values
-    y = higgs.iloc[:, 0].values
     if num_rows is not None:
-        X = X[0:num_rows]
-        y = y[0:num_rows]
+        higgs = higgs[0:num_rows]
 
-    return X, y
+    return higgs.as_matrix()
 
 @mem.cache
 def get_cover_type(num_rows=None):
     data = datasets.fetch_covtype()
-    X = data.data
-    y = data.target
+    data = data.data
     if num_rows is not None:
-        X = X[0:num_rows]
-        y = y[0:num_rows]
+        data = data[0:num_rows]
 
-    return X, y
+    return data.as_matrix()
 
 @mem.cache
 def get_synthetic_regression(num_rows=None):
@@ -65,13 +58,10 @@ def get_year(num_rows=None):
         zip_ref.close()
 
     year = pd.read_csv('YearPredictionMSD.txt', header=None)
-    X = year.iloc[:, 1:].values
-    y = year.iloc[:, 0].values
     if num_rows is not None:
-        X = X[0:num_rows]
-        y = y[0:num_rows]
+        year = year[0:num_rows]
 
-    return X, y
+    return year.as_matrix()
 
 
 @mem.cache
@@ -86,14 +76,9 @@ def get_url(num_rows=None):
 
     num_files = 120
     files = ['url_svmlight/Day{}.svm'.format(day) for day in range(num_files)]
-    data = datasets.load_svmlight_files(files)
-    X = vstack(data[::2])
-    y = np.concatenate(data[1::2])
-
-    y[y < 0.0] = 0.0
+    X = datasets.load_svmlight_files(files)
 
     if num_rows is not None:
         X = X[0:num_rows]
-        y = y[0:num_rows]
 
-    return X, y
+    return X.as_matrix()
