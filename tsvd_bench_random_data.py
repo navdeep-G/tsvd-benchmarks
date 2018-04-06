@@ -127,7 +127,11 @@ def run_bench(m=5000000, n=10, k=9, convert_to_float32=False):
 
     results = func(m, n, k, convert_to_float32=convert_to_float32)
     if results[0] <= results[1]:
-        print("h2o4gpu tsvd is not faster than sklearn for m = %s and n = %s" % (m,n))
+        print("h2o4gpu tsvd cusolver is faster than sklearn arpack for m = %s and n = %s" % (m,n))
+
+    if results[2] <= results[3]:
+        print("h2o4gpu tsvd power is faster than sklearn randomized for m = %s and n = %s" % (m,n))
+
     filename = 'bench_results.csv'
 
     if not os.path.exists(filename):
