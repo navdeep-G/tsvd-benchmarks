@@ -1,10 +1,12 @@
 import gzip
 import os
 import pandas as pd
+import numpy as np
 import shutil
 import sys
 import tarfile
 import zipfile
+from scipy.sparse import vstack
 from sklearn import datasets
 from sklearn.externals.joblib import Memory
 
@@ -38,13 +40,16 @@ def get_cover_type(num_rows=None):
     if num_rows is not None:
         data = data[0:num_rows]
 
-    return data.as_matrix()
+    return data
 
 @mem.cache
 def get_synthetic_regression(num_rows=None):
     if num_rows is None:
         num_rows = 10000000
-    return datasets.make_regression(n_samples=num_rows, bias=100, noise=1.0)
+    X, y = datasets.make_regression(n_samples=num_rows, bias=100, noise=1.0)
+    X = X.astype(np.float32)
+
+    return X
 
 
 @mem.cache
@@ -76,9 +81,10 @@ def get_url(num_rows=None):
 
     num_files = 120
     files = ['url_svmlight/Day{}.svm'.format(day) for day in range(num_files)]
-    X = datasets.load_svmlight_files(files)
+    data = datasets.load_svmlight_files(files)
+    X = vstack(data[::2])
 
     if num_rows is not None:
         X = X[0:num_rows]
 
-    return X.as_matrix()
+    return X

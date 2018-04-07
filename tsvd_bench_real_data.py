@@ -18,6 +18,17 @@ def func(k=9, dataset="higgs"):
     if dataset == "higgs":
         print("Getting Higgs dataset")
         X = datasets.get_higgs()
+    elif dataset == "covtype":
+        print("Getting covtype dataset")
+        X = datasets.get_cover_type()
+    elif dataset == "regression":
+        print("Getting synthetic regression data")
+        X = datasets.get_synthetic_regression()
+    elif dataset == "year":
+        print("Getting YearPredictionMSD data")
+        X = datasets.get_year()
+    else:
+        raise Exception("Unrecognized dataset " + dataset)
 
     # Warm start
     W = np.random.rand(1000, 5)
@@ -155,15 +166,45 @@ def run_bench(k=9, dataset="higgs"):
     timings.write(str(st) + "," + str(dataset) + "," + str(results[4])+","+str(results[5])+","+str(k)+","+str(dtype)+","+str(results[0])+","+str(results[1])+","+str(results[2])+","+str(results[3])+'\n')
     timings.close()
 
-def test_tsvd_k2(): run_bench(k=2, dataset="higgs")
-def test_tsvd_k3(): run_bench(k=3, dataset="higgs")
-def test_tsvd_k4(): run_bench(k=4, dataset="higgs")
-def test_tsvd_k5(): run_bench(k=5, dataset="higgs")
-def test_tsvd_k6(): run_bench(k=6, dataset="higgs")
-def test_tsvd_k7(): run_bench(k=7, dataset="higgs")
-def test_tsvd_k8(): run_bench(k=8, dataset="higgs")
-def test_tsvd_k9(): run_bench(k=9, dataset="higgs")
-def test_tsvd_k10(): run_bench(k=10, dataset="higgs")
+def test_tsvd_k2_covtype(): run_bench(k=2, dataset="covtype")
+def test_tsvd_k3_covtype(): run_bench(k=3, dataset="covtype")
+def test_tsvd_k4_covtype(): run_bench(k=4, dataset="covtype")
+def test_tsvd_k5_covtype(): run_bench(k=5, dataset="covtype")
+def test_tsvd_k6_covtype(): run_bench(k=6, dataset="covtype")
+def test_tsvd_k7_covtype(): run_bench(k=7, dataset="covtype")
+def test_tsvd_k8_covtype(): run_bench(k=8, dataset="covtype")
+def test_tsvd_k9_covtype(): run_bench(k=9, dataset="covtype")
+def test_tsvd_k10_covtype(): run_bench(k=10, dataset="covtype")
+
+def test_tsvd_k2_year(): run_bench(k=2, dataset="year")
+def test_tsvd_k3_year(): run_bench(k=3, dataset="year")
+def test_tsvd_k4_year(): run_bench(k=4, dataset="year")
+def test_tsvd_k5_year(): run_bench(k=5, dataset="year")
+def test_tsvd_k6_year(): run_bench(k=6, dataset="year")
+def test_tsvd_k7_year(): run_bench(k=7, dataset="year")
+def test_tsvd_k8_year(): run_bench(k=8, dataset="year")
+def test_tsvd_k9_year(): run_bench(k=9, dataset="year")
+def test_tsvd_k10_year(): run_bench(k=10, dataset="year")
+
+def test_tsvd_k2_regression(): run_bench(k=2, dataset="regression")
+def test_tsvd_k3_regression(): run_bench(k=3, dataset="regression")
+def test_tsvd_k4_regression(): run_bench(k=4, dataset="regression")
+def test_tsvd_k5_regression(): run_bench(k=5, dataset="regression")
+def test_tsvd_k6_regression(): run_bench(k=6, dataset="regression")
+def test_tsvd_k7_regression(): run_bench(k=7, dataset="regression")
+def test_tsvd_k8_regression(): run_bench(k=8, dataset="regression")
+def test_tsvd_k9_regression(): run_bench(k=9, dataset="regression")
+def test_tsvd_k10_regression(): run_bench(k=10, dataset="regression")
+
+def test_tsvd_k2_higgs(): run_bench(k=2, dataset="higgs")
+def test_tsvd_k3_higgs(): run_bench(k=3, dataset="higgs")
+def test_tsvd_k4_higgs(): run_bench(k=4, dataset="higgs")
+def test_tsvd_k5_higgs(): run_bench(k=5, dataset="higgs")
+def test_tsvd_k6_higgs(): run_bench(k=6, dataset="higgs")
+def test_tsvd_k7_higgs(): run_bench(k=7, dataset="higgs")
+def test_tsvd_k8_higgs(): run_bench(k=8, dataset="higgs")
+def test_tsvd_k9_higgs(): run_bench(k=9, dataset="higgs")
+def test_tsvd_k10_higgs(): run_bench(k=10, dataset="higgs")
 
 
 
