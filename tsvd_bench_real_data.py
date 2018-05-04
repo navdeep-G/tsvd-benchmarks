@@ -12,7 +12,7 @@ print(sys.path)
 
 logging.basicConfig(level=logging.DEBUG)
 
-def func(k=9, dataset="higgs"):
+def func(dataset="higgs"):
 
     #Get higgs dataset
     if dataset == "higgs":
@@ -47,6 +47,9 @@ def func(k=9, dataset="higgs"):
     print('sklearn Randomized Warm Start')
     sklearn_tsvd_random_warm = sklearnsvd(n_components=3, algorithm="randomized", tol=1e-5, n_iter=5, random_state=42)
     sklearn_tsvd_random_warm.fit(W)
+
+    #Set k to n-1
+    k = X.shape[1]
 
     # Exact scikit impl
     sklearn_tsvd_arpack = sklearnsvd(algorithm="arpack", n_components=k, tol=1e-5, n_iter=5, random_state=42)
@@ -137,8 +140,8 @@ def func(k=9, dataset="higgs"):
 
     return end_time_gpu_cusolver, end_sk_arpack, end_time_gpu_power, end_sk_randomized, X.shape[0], X.shape[1]
 
-def run_bench(k=9, dataset="higgs"):
-    results = func(k, dataset)
+def run_bench(dataset="higgs"):
+    results = func(dataset)
     dtype="double"
     directory="results"
 
@@ -166,45 +169,14 @@ def run_bench(k=9, dataset="higgs"):
     timings.write(str(st) + "," + str(dataset) + "," + str(results[4])+","+str(results[5])+","+str(k)+","+str(dtype)+","+str(results[0])+","+str(results[1])+","+str(results[2])+","+str(results[3])+'\n')
     timings.close()
 
-def test_tsvd_k2_covtype(): run_bench(k=2, dataset="covtype")
-def test_tsvd_k3_covtype(): run_bench(k=3, dataset="covtype")
-def test_tsvd_k4_covtype(): run_bench(k=4, dataset="covtype")
-def test_tsvd_k5_covtype(): run_bench(k=5, dataset="covtype")
-def test_tsvd_k6_covtype(): run_bench(k=6, dataset="covtype")
-def test_tsvd_k7_covtype(): run_bench(k=7, dataset="covtype")
-def test_tsvd_k8_covtype(): run_bench(k=8, dataset="covtype")
-def test_tsvd_k9_covtype(): run_bench(k=9, dataset="covtype")
-def test_tsvd_k10_covtype(): run_bench(k=10, dataset="covtype")
+def test_tsvd_covtype(): run_bench(dataset="covtype")
 
-def test_tsvd_k2_year(): run_bench(k=2, dataset="year")
-def test_tsvd_k3_year(): run_bench(k=3, dataset="year")
-def test_tsvd_k4_year(): run_bench(k=4, dataset="year")
-def test_tsvd_k5_year(): run_bench(k=5, dataset="year")
-def test_tsvd_k6_year(): run_bench(k=6, dataset="year")
-def test_tsvd_k7_year(): run_bench(k=7, dataset="year")
-def test_tsvd_k8_year(): run_bench(k=8, dataset="year")
-def test_tsvd_k9_year(): run_bench(k=9, dataset="year")
-def test_tsvd_k10_year(): run_bench(k=10, dataset="year")
+def test_tsvd_year(): run_bench(dataset="year")
 
-def test_tsvd_k2_regression(): run_bench(k=2, dataset="regression")
-def test_tsvd_k3_regression(): run_bench(k=3, dataset="regression")
-def test_tsvd_k4_regression(): run_bench(k=4, dataset="regression")
-def test_tsvd_k5_regression(): run_bench(k=5, dataset="regression")
-def test_tsvd_k6_regression(): run_bench(k=6, dataset="regression")
-def test_tsvd_k7_regression(): run_bench(k=7, dataset="regression")
-def test_tsvd_k8_regression(): run_bench(k=8, dataset="regression")
-def test_tsvd_k9_regression(): run_bench(k=9, dataset="regression")
-def test_tsvd_k10_regression(): run_bench(k=10, dataset="regression")
+def test_tsvd_regression(): run_bench(dataset="regression")
 
-def test_tsvd_k2_higgs(): run_bench(k=2, dataset="higgs")
-def test_tsvd_k3_higgs(): run_bench(k=3, dataset="higgs")
-def test_tsvd_k4_higgs(): run_bench(k=4, dataset="higgs")
-def test_tsvd_k5_higgs(): run_bench(k=5, dataset="higgs")
-def test_tsvd_k6_higgs(): run_bench(k=6, dataset="higgs")
-def test_tsvd_k7_higgs(): run_bench(k=7, dataset="higgs")
-def test_tsvd_k8_higgs(): run_bench(k=8, dataset="higgs")
-def test_tsvd_k9_higgs(): run_bench(k=9, dataset="higgs")
-def test_tsvd_k10_higgs(): run_bench(k=10, dataset="higgs")
+def test_tsvd_higgs(): run_bench(dataset="higgs")
+
 
 
 
